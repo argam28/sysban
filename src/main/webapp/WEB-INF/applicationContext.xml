@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:s="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+    
+    <s:http>
+        <s:intercept-url pattern="/admin/*" access="hasRole('ROL_ADMIN')" ></s:intercept-url>
+        <s:csrf disabled="true"></s:csrf>
+        <s:form-login login-page="/loginAction" 
+                      default-target-url="/menuAction"
+                      username-parameter="usuario"
+                      password-parameter="password"
+                      authentication-failure-url="/loginPage"
+        />
+        <s:logout logout-success-url="/logout"/>
+    </s:http>
+    <s:authentication-manager>
+        <s:authentication-provider> 
+            <s:user-service>
+                <s:user name="admin" password="admin" authorities="ROL_ADMIN" ></s:user>
+                <s:user name="person" password="person" authorities="ROL_PERSON" ></s:user>
+            </s:user-service>
+        </s:authentication-provider>
+    </s:authentication-manager>
+</beans>
